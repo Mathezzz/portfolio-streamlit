@@ -30,7 +30,7 @@ with col1:
         
 with col2:
     st.image("assets/ocr_exemplo.png")
-    st.link_button("Testar Ferramenta", "https://www.linkedin.com/posts/anderson-matheuzzz_analisededados-cienciadedados-ocr-activity-7322424522605772800-WA-j?utm_source=share&utm_medium=member_desktop&rcm=ACoAACrGKFkBn4uFaNxzcWuo-YFOb2BM-J2Vflg")
+    st.link_button("Testar Ferramenta(Em breve)", "https://www.linkedin.com/posts/anderson-matheuzzz_analisededados-cienciadedados-ocr-activity-7322424522605772800-WA-j?utm_source=share&utm_medium=member_desktop&rcm=ACoAACrGKFkBn4uFaNxzcWuo-YFOb2BM-J2Vflg")
     with st.expander("OCR de imagens para texto"):
         st.markdown("""
         - **Objetivo**: Extrair texto a partir de imagens, com ideias para transformar prints, fotos e scans em arquivos de texto.
@@ -38,3 +38,13 @@ with col2:
         - **Destaques**: Gerando texto em retorno, mas é possível também retornar o arquivo com extensão .txt.
         - Obs.: Em breve deixo a ferramenta disponível, ainda estou organizando o portfolio.
         """)
+        
+with col3:
+    st.image("assets/prototipo-petcare-hackatruck.jpg")
+    st.link_button("Visualizar publicação sobre projeto", "https://www.linkedin.com/posts/anderson-matheuzzz_swiftui-swiftui-ibm-activity-7128504026186362880-LGio?utm_source=share&utm_medium=member_desktop&rcm=ACoAACrGKFkBn4uFaNxzcWuo-YFOb2BM-J2Vflg")
+    with st.expander("Detalhes sobre o projeto"):
+        st.markdown("""
+                - **Objetivo**:Desenvolver uma solução tecnológica para apoiar animais em situação de rua, utilizando um sistema inteligente de comedouros automatizados, integrados a um aplicativo mobile. O projeto visa facilitar o cuidado, a visualização e a adoção desses animais, além de contribuir com dados para políticas públicas de saúde animal.
+                - **Tecnologias**: OpenCV, IoT (Raspberry PI, câmera, sensor de presença, motor), IBM Cloudant, SwiftUI
+                - **Destaques**: Cadastro Automático de Animais: Imagens captadas pelos sensores alimentam um banco de dados para registro e acompanhamento.
+                """)
