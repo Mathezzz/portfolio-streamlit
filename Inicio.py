@@ -16,6 +16,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed",
 )
+st.logo("assets/anderson_foto.jpg", size="large", link="https://www.linkedin.com/in/anderson-matheuzzz")
 
 # ========== Carregar Imagem ==========
 img = Image.open("assets/anderson_foto.jpg")
@@ -52,13 +53,20 @@ with col2:
 st.markdown("---")
 st.markdown("📌 **Onde você pode me encontrar:**")
 
-col1, col2, col3 = st.columns(3)
+col1, col2, col3, col4 = st.columns(4)
 with col1:
+    st.write("Me conheça um pouco mais e meus conteúdos:")
     st.link_button("LinkedIn", "https://www.linkedin.com/in/anderson-matheuzzz")
 with col2:
+    st.write("Github com alguns projetos:")
     st.link_button("GitHub", "https://github.com/Mathezzz")
 with col3:
+    st.write("Uma pitada de dados:")
+    st.image("assets/logo pitada de dados.png", width=200)
     st.link_button("Newsletter", "https://www.linkedin.com/build-relation/newsletter-follow?entityUrn=7202653532963934210")
+with col4:
+    st.write("Contato: (84) 9 9840-9265")
+    st.link_button("Fale comigo no Whatsapp", "https://wa.me/5584998409265?text=Ol%C3%A1%2C%20vi%20seu%20portf%C3%B3lio%20de%20dados%20e%20resolvi%20entrar%20em%20contato%20com%20voc%C3%AA!")
 
 
 # ========== Cards com Resumo ==========

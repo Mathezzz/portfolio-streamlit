@@ -8,6 +8,12 @@ Created on Tue Jul  8 15:26:25 2025
 import streamlit as st
 
 st.set_page_config(page_title="Projetos - Anderson", layout="wide")
+st.set_page_config(
+    page_title="Projetos - Anderson",
+    page_icon="🎲",
+    layout="wide",
+)
+st.logo("assets/anderson_foto.jpg", size="large", link="https://www.linkedin.com/in/anderson-matheuzzz")
 
 st.title("📁 Projetos em Destaque")
 st.markdown("Aqui você encontra alguns dos projetos que desenvolvi com foco em dados, IA e automação.")
@@ -48,3 +54,13 @@ with col3:
                 - **Tecnologias**: OpenCV, IoT (Raspberry PI, câmera, sensor de presença, motor), IBM Cloudant, SwiftUI
                 - **Destaques**: Cadastro Automático de Animais: Imagens captadas pelos sensores alimentam um banco de dados para registro e acompanhamento.
                 """)
+                
+st.markdown("---")
+
+col4, col5, col6 = st.columns(3)
+with col4:
+    with st.expander("Visualizar Dashboard"):
+        st.markdown("""
+                    Dashboard de análise climática desenvolvido em python, utilizando Pandas, Streamlit, 
+                    Matplotlib, Seaborn e Plotly
+                    """)

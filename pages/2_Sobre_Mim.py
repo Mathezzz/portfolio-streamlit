@@ -8,6 +8,12 @@ Created on Wed Jul 23 11:17:38 2025
 import streamlit as st
 
 st.set_page_config(page_title="Sobre Anderson", layout="wide")
+st.set_page_config(
+    page_title="Projetos - Anderson",
+    page_icon="👤",
+    layout="wide",
+)
+st.logo("assets/anderson_foto.jpg", size="large", link="https://www.linkedin.com/in/anderson-matheuzzz")
 
 st.title("👤 Sobre Mim")
 st.markdown("""
