@@ -1,5 +1,5 @@
 # Escolhendo uma imagem base enxuta e específica
-FROM python:3.9-slim
+FROM python:3.12.11-trixie
 
 RUN apt-get update && apt-get install
 
