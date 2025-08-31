@@ -19,4 +19,4 @@ COPY . .
 # EXPOSE 5000
 
 # Comando padrão para iniciar a aplicação
-CMD ["python", "Inicio.py"]
+CMD ["streamlit", "run", "Inicio.py", "--server.port=5000", "--server.address=0.0.0.0"]
