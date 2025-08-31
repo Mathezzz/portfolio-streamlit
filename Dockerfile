@@ -1,6 +1,8 @@
 # Escolhendo uma imagem base enxuta e específica
 FROM python:3.9-slim
 
+RUN apt-get update && apt-get install
+
 # Define o diretório de trabalho dentro do container
 WORKDIR /app
 
