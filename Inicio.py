@@ -14,7 +14,6 @@ st.set_page_config(
     page_title="Portfólio - Anderson Matheus",
     page_icon="📊",
     layout="wide",
-    initial_sidebar_state="collapsed",
 )
 
 st.logo("assets/anderson_foto.jpg", size="large", link="https://www.linkedin.com/in/anderson-matheuzzz")
