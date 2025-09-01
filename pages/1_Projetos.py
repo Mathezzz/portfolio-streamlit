@@ -35,15 +35,16 @@ with col1:
         """)
         
 with col2:
-    st.image("assets/ocr_exemplo.png")
-    st.link_button("Testar Ferramenta(Em breve)", "https://www.linkedin.com/posts/anderson-matheuzzz_analisededados-cienciadedados-ocr-activity-7322424522605772800-WA-j?utm_source=share&utm_medium=member_desktop&rcm=ACoAACrGKFkBn4uFaNxzcWuo-YFOb2BM-J2Vflg")
-    with st.expander("OCR de imagens para texto"):
+    st.image("assets/dashboard-clima.png")
+    st.link_button("Visualizar Dashboard", "https://lookerstudio.google.com/reporting/ec367570-1f32-4d6d-b524-f2aac68f1700")
+    with st.expander("Detalhes do Dashboard"):
         st.markdown("""
-        - **Objetivo**: Extrair texto a partir de imagens, com ideias para transformar prints, fotos e scans em arquivos de texto.
-        - **Tecnologias**: OpenCV, PyTesseract, SciKit-Learn e Pipeline.
-        - **Destaques**: Gerando texto em retorno, mas é possível também retornar o arquivo com extensão .txt.
-        - Obs.: Em breve deixo a ferramenta disponível, ainda estou organizando o portfolio.
-        """)
+                    Dashboard de análise climática.
+                    
+                    Dados adquiridos utilizando AppScript e OpenWheather
+                    Dashboard inicialmente no Streamlit e migrado para Looker Studio
+                    pelo visual e para manter a acessibilidade mais fácil.
+                    """)
         
 with col3:
     st.image("assets/prototipo-petcare-hackatruck.jpg")
@@ -59,13 +60,12 @@ st.markdown("---")
 
 col4, col5, col6 = st.columns(3)
 with col4:
-    st.image("assets/dashboard-clima.png")
-    st.link_button("Visualizar Dashboard", "https://lookerstudio.google.com/reporting/ec367570-1f32-4d6d-b524-f2aac68f1700")
-    with st.expander("Detalhes do Dashboard"):
+    st.image("assets/ocr_exemplo.png")
+    st.link_button("Testar Ferramenta(Em breve)", "https://www.linkedin.com/posts/anderson-matheuzzz_analisededados-cienciadedados-ocr-activity-7322424522605772800-WA-j?utm_source=share&utm_medium=member_desktop&rcm=ACoAACrGKFkBn4uFaNxzcWuo-YFOb2BM-J2Vflg")
+    with st.expander("OCR de imagens para texto"):
         st.markdown("""
-                    Dashboard de análise climática.
-                    
-                    Dados adquiridos utilizando AppScript e OpenWheather
-                    Dashboard inicialmente no Streamlit e migrado para Looker Studio
-                    pelo visual e para manter a acessibilidade mais fácil.
-                    """)
+        - **Objetivo**: Extrair texto a partir de imagens, com ideias para transformar prints, fotos e scans em arquivos de texto.
+        - **Tecnologias**: OpenCV, PyTesseract, SciKit-Learn e Pipeline.
+        - **Destaques**: Gerando texto em retorno, mas é possível também retornar o arquivo com extensão .txt.
+        - Obs.: Em breve deixo a ferramenta disponível, ainda estou organizando o portfolio.
+        """)
