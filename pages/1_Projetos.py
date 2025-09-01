@@ -59,8 +59,13 @@ st.markdown("---")
 
 col4, col5, col6 = st.columns(3)
 with col4:
-    with st.expander("Visualizar Dashboard"):
+    st.image("assets/dashboard-clima.png")
+    st.link_button("Visualizar Dashboard", "https://lookerstudio.google.com/reporting/ec367570-1f32-4d6d-b524-f2aac68f1700")
+    with st.expander("Detalhes do Dashboard"):
         st.markdown("""
-                    Dashboard de análise climática desenvolvido em python, utilizando Pandas, Streamlit, 
-                    Matplotlib, Seaborn e Plotly
+                    Dashboard de análise climática.
+                    
+                    Dados adquiridos utilizando AppScript e OpenWheather
+                    Dashboard inicialmente no Streamlit e migrado para Looker Studio
+                    pelo visual e para manter a acessibilidade mais fácil.
                     """)
