@@ -9,8 +9,13 @@ import streamlit as st
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
+import os, json
 
-
+if "GCP_SERVICE_ACCOUNT" in os.environ:
+    service_account_info = json.loads(os.environ["GCP_SERVICE_ACCOUNT"])
+else:
+    service_account_info = st.secrets["gcp_service_account"]
+    
 @st.cache_data(ttl=600)
 def carregar_dados_sheet():
     # Carregar JSON a partir dos secrets
