@@ -10,6 +10,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
 
+
 @st.cache_data(ttl=600)
 def carregar_dados_sheet():
     # Carregar JSON a partir dos secrets
@@ -40,6 +41,27 @@ def enviar_avaliacao(projeto, nota, comentario):
     
     # Enviar para a planilha
     sheet.append_row(nova_linha)
+
+
+def grafico_avaliacoes(projeto, df_avaliacoes):
+    # Filtrar apenas o projeto desejado
+    df_filtrado = df_avaliacoes[df_avaliacoes["Projeto"] == projeto]
+
+    if df_filtrado.empty:
+        st.warning("Ainda não há avaliações para este projeto.")
+        return
+
+    # Contar quantidade de cada nota
+    contagem_notas = df_filtrado["Nota"].value_counts().sort_index()
+
+    # Calcular média
+    media = df_filtrado["Nota"].mean()
+
+    # Mostrar gráfico de barras nativo do Streamlit
+    st.bar_chart(contagem_notas)
+
+    # Exibir a média em destaque
+    st.markdown(f"**Média das avaliações:** ⭐ {media:.2f}")
 
 df_avaliacao = carregar_dados_sheet()
     
@@ -77,9 +99,12 @@ with col2:
         enviar_avaliacao("visao-tomate", nota, comentario)
         st.success("Obrigado! Sua avaliação foi registrada.")
         
-    # Mostrar feedbacks anteriores (opcional)
+    # Mostrar feedbacks anteriores
+    grafico_avaliacoes("visao-tomate", df_avaliacao)
     if st.checkbox("Mostrar feedbacks anteriores"):
-        st.dataframe(df_avaliacao)
+        st.dataframe(df_avaliacao['Comentário'])
+
+st.markdown("---")
 
 col3, col4 = st.columns([0.7, 0.3]) 
 with col3:
@@ -93,6 +118,22 @@ with col3:
                     Dashboard inicialmente no Streamlit e migrado para Looker Studio
                     pelo visual e para manter a acessibilidade mais fácil.
                     """)
+with col4:
+    projeto = "dashboard-clima"
+    nota = st.slider(f"Nota para o projeto {projeto} (0 a 5):", 0, 5, 3)
+    # Campo de comentário
+    comentario = st.text_area(f"Deixe seu comentário do {projeto}:")   
+
+    if st.button("Enviar avaliação", key=f"botao_{projeto}"):
+        enviar_avaliacao(projeto, nota, comentario)
+        st.success("Obrigado! Sua avaliação foi registrada.")
+    
+    grafico_avaliacoes(projeto, df_avaliacao)
+    
+    if st.checkbox(f"Mostrar feedbacks anteriores de {projeto}", key=f"checkbox_{projeto}"):
+        st.dataframe(df_avaliacao[df_avaliacao["projeto"] == projeto][['Comentário', 'nota']])
+
+st.markdown("---")
 
 col5, col6 = st.columns([0.7, 0.3])
 with col5:
@@ -104,6 +145,20 @@ with col5:
                 - **Tecnologias**: OpenCV, IoT (Raspberry PI, câmera, sensor de presença, motor), IBM Cloudant, SwiftUI
                 - **Destaques**: Cadastro Automático de Animais: Imagens captadas pelos sensores alimentam um banco de dados para registro e acompanhamento.
                 """)
+with col6:
+    projeto = "petcare"
+    nota = st.slider(f"Nota para o projeto {projeto} (0 a 5):", 0, 5, 3)
+    # Campo de comentário
+    comentario = st.text_area(f"Deixe seu comentário do {projeto}:")   
+
+    if st.button("Enviar avaliação", key=f"botao_{projeto}"):
+        enviar_avaliacao(projeto, nota, comentario)
+        st.success("Obrigado! Sua avaliação foi registrada.")
+    
+    grafico_avaliacoes(projeto, df_avaliacao)
+    
+    if st.checkbox(f"Mostrar feedbacks anteriores de {projeto}", key=f"checkbox_{projeto}"):
+        st.dataframe(df_avaliacao[df_avaliacao["projeto"] == projeto][['Comentário', 'nota']])
                 
 st.markdown("---")
 
@@ -118,3 +173,18 @@ with col7:
         - **Destaques**: Gerando texto em retorno, mas é possível também retornar o arquivo com extensão .txt.
         - Obs.: Em breve deixo a ferramenta disponível, ainda estou organizando o portfolio.
         """)
+
+with col8:
+    projeto = "ocr-texto"
+    nota = st.slider(f"Nota para o projeto {projeto} (0 a 5):", 0, 5, 3)
+    # Campo de comentário
+    comentario = st.text_area(f"Deixe seu comentário do {projeto}:")   
+
+    if st.button("Enviar avaliação", key=f"botao_{projeto}"):
+        enviar_avaliacao(projeto, nota, comentario)
+        st.success("Obrigado! Sua avaliação foi registrada.")
+    
+    grafico_avaliacoes(projeto, df_avaliacao)
+    
+    if st.checkbox(f"Mostrar feedbacks anteriores de {projeto}", key=f"checkbox_{projeto}"):
+        st.dataframe(df_avaliacao[df_avaliacao["projeto"] == projeto][['Comentário', 'nota']])
