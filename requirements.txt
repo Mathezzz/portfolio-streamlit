@@ -38,3 +38,5 @@ tzdata==2025.2
 urllib3==2.5.0
 watchdog==6.0.0
 wheel==0.45.1
+gspread==6.2.1
+oauth2client==4.1.3
