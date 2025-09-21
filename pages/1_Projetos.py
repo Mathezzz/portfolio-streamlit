@@ -6,7 +6,43 @@ Created on Tue Jul  8 15:26:25 2025
 """
 
 import streamlit as st
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+import pandas as pd
 
+@st.cache_data(ttl=600)
+def carregar_dados_sheet():
+    # Carregar JSON a partir dos secrets
+    service_account_info = st.secrets["gcp_service_account"]
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(service_account_info, scopes=[
+        "https://spreadsheets.google.com/feeds",
+        "https://www.googleapis.com/auth/drive"
+    ])
+    
+    client = gspread.authorize(creds)
+    sheet = client.open("avaliacoes-portfolio").worksheet("avaliacao")
+    df = pd.DataFrame(sheet.get_all_records())
+    return df
+
+def enviar_avaliacao(projeto, nota, comentario):
+    # Carregar JSON a partir dos secrets
+    service_account_info = st.secrets["gcp_service_account"]
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(service_account_info, scopes=[
+        "https://spreadsheets.google.com/feeds",
+        "https://www.googleapis.com/auth/drive"
+    ])
+    
+    client = gspread.authorize(creds)
+    sheet = client.open("avaliacoes-portfolio").worksheet("avaliacao")
+
+    # Montar nova linha (pode adicionar mais colunas se quiser, como timestamp)
+    nova_linha = [str(pd.Timestamp.now()), projeto, nota, comentario]
+    
+    # Enviar para a planilha
+    sheet.append_row(nova_linha)
+
+df_avaliacao = carregar_dados_sheet()
+    
 st.set_page_config(page_title="Projetos - Anderson", layout="wide")
 st.set_page_config(
     page_title="Projetos - Anderson",
@@ -19,7 +55,7 @@ st.title("📁 Projetos em Destaque")
 st.markdown("Aqui você encontra alguns dos projetos que desenvolvi com foco em dados, IA e automação.")
 
 # ========== Criação da galeria ==========
-col1, col2, col3 = st.columns(3)
+col1, col2 = st.columns([0.7, 0.3])
 
 
 # Projeto tomate
@@ -33,8 +69,20 @@ with col1:
         - **Destaques**: Aplicação baseada em um projeto do livro 'Redes Neurais Artificiais' do Prof. Ivan N.
         - Obs.: Em breve deixo a ferramenta disponível, ainda estou organizando o portfolio.
         """)
-        
+
 with col2:
+    nota = st.slider("Nota para o projeto (0 a 5):", 0, 5, 3)
+    comentario = st.text_area("Deixe seu comentário:")
+    if st.button("Enviar avaliação"):
+        enviar_avaliacao("visao-tomate", nota, comentario)
+        st.success("Obrigado! Sua avaliação foi registrada.")
+        
+    # Mostrar feedbacks anteriores (opcional)
+    if st.checkbox("Mostrar feedbacks anteriores"):
+        st.dataframe(df_avaliacao)
+
+col3, col4 = st.columns([0.7, 0.3]) 
+with col3:
     st.image("assets/dashboard-clima.png")
     st.link_button("Visualizar Dashboard", "https://lookerstudio.google.com/reporting/ec367570-1f32-4d6d-b524-f2aac68f1700")
     with st.expander("Detalhes do Dashboard"):
@@ -45,8 +93,9 @@ with col2:
                     Dashboard inicialmente no Streamlit e migrado para Looker Studio
                     pelo visual e para manter a acessibilidade mais fácil.
                     """)
-        
-with col3:
+
+col5, col6 = st.columns([0.7, 0.3])
+with col5:
     st.image("assets/prototipo-petcare-hackatruck.jpg")
     st.link_button("Visualizar publicação sobre projeto", "https://www.linkedin.com/posts/anderson-matheuzzz_swiftui-swiftui-ibm-activity-7128504026186362880-LGio?utm_source=share&utm_medium=member_desktop&rcm=ACoAACrGKFkBn4uFaNxzcWuo-YFOb2BM-J2Vflg")
     with st.expander("Detalhes sobre o projeto"):
@@ -58,8 +107,8 @@ with col3:
                 
 st.markdown("---")
 
-col4, col5, col6 = st.columns(3)
-with col4:
+col7, col8 = st.columns([0.7, 0.3])
+with col7:
     st.image("assets/ocr_exemplo.png")
     st.link_button("Testar Ferramenta(Em breve)", "https://www.linkedin.com/posts/anderson-matheuzzz_analisededados-cienciadedados-ocr-activity-7322424522605772800-WA-j?utm_source=share&utm_medium=member_desktop&rcm=ACoAACrGKFkBn4uFaNxzcWuo-YFOb2BM-J2Vflg")
     with st.expander("OCR de imagens para texto"):
