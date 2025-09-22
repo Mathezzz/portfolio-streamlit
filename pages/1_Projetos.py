@@ -11,6 +11,14 @@ from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
 import os, json
 
+st.set_page_config(
+    page_title="Projetos - Anderson",
+    page_icon="🎲",
+    layout="wide",
+)
+st.logo("assets/anderson_foto.jpg", size="large", link="https://www.linkedin.com/in/anderson-matheuzzz")
+
+service_account_info = ""
 if "GCP_SERVICE_ACCOUNT" in os.environ:
     service_account_info = json.loads(os.environ["GCP_SERVICE_ACCOUNT"])
 else:
@@ -19,7 +27,7 @@ else:
 @st.cache_data(ttl=600)
 def carregar_dados_sheet():
     # Carregar JSON a partir dos secrets
-    service_account_info = st.secrets["gcp_service_account"]
+    # service_account_info = st.secrets["gcp_service_account"]
     creds = ServiceAccountCredentials.from_json_keyfile_dict(service_account_info, scopes=[
         "https://spreadsheets.google.com/feeds",
         "https://www.googleapis.com/auth/drive"
@@ -32,7 +40,7 @@ def carregar_dados_sheet():
 
 def enviar_avaliacao(projeto, nota, comentario):
     # Carregar JSON a partir dos secrets
-    service_account_info = st.secrets["gcp_service_account"]
+    # service_account_info = st.secrets["gcp_service_account"]
     creds = ServiceAccountCredentials.from_json_keyfile_dict(service_account_info, scopes=[
         "https://spreadsheets.google.com/feeds",
         "https://www.googleapis.com/auth/drive"
@@ -69,14 +77,6 @@ def grafico_avaliacoes(projeto, df_avaliacoes):
     st.markdown(f"**Média das avaliações:** ⭐ {media:.2f}")
 
 df_avaliacao = carregar_dados_sheet()
-    
-st.set_page_config(page_title="Projetos - Anderson", layout="wide")
-st.set_page_config(
-    page_title="Projetos - Anderson",
-    page_icon="🎲",
-    layout="wide",
-)
-st.logo("assets/anderson_foto.jpg", size="large", link="https://www.linkedin.com/in/anderson-matheuzzz")
 
 st.title("📁 Projetos em Destaque")
 st.markdown("Aqui você encontra alguns dos projetos que desenvolvi com foco em dados, IA e automação.")
