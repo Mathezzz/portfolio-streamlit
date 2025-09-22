@@ -10,6 +10,9 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
 import os, json
+from dotenv import load_dotenv
+from pathlib import Path
+
 
 st.set_page_config(
     page_title="Projetos - Anderson",
@@ -18,14 +21,14 @@ st.set_page_config(
 )
 st.logo("assets/anderson_foto.jpg", size="large", link="https://www.linkedin.com/in/anderson-matheuzzz")
 
+dotenv_path = Path(__file__).resolve().parent.parent / ".env"
+load_dotenv(dotenv_path)
+
 
 @st.cache_data(ttl=600)
 def carregar_dados_sheet():
     # Carregar JSON a partir dos secrets
-    if "GCP_SERVICE_ACCOUNT" in os.environ:
-        service_account_info = json.loads(os.environ["GCP_SERVICE_ACCOUNT"])
-    else:
-        service_account_info = st.secrets["gcp_service_account"]
+    service_account_info = json.loads(os.getenv("GCP_SERVICE_ACCOUNT"))
     creds = ServiceAccountCredentials.from_json_keyfile_dict(service_account_info, scopes=[
         "https://spreadsheets.google.com/feeds",
         "https://www.googleapis.com/auth/drive"
@@ -38,10 +41,7 @@ def carregar_dados_sheet():
 
 def enviar_avaliacao(projeto, nota, comentario):
     # Carregar JSON a partir dos secrets
-    if "GCP_SERVICE_ACCOUNT" in os.environ:
-        service_account_info = json.loads(os.environ["GCP_SERVICE_ACCOUNT"])
-    else:
-        service_account_info = st.secrets["gcp_service_account"]
+    service_account_info = json.loads(os.getenv("GCP_SERVICE_ACCOUNT"))
     creds = ServiceAccountCredentials.from_json_keyfile_dict(service_account_info, scopes=[
         "https://spreadsheets.google.com/feeds",
         "https://www.googleapis.com/auth/drive"
