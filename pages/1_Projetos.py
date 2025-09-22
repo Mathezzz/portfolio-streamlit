@@ -18,16 +18,14 @@ st.set_page_config(
 )
 st.logo("assets/anderson_foto.jpg", size="large", link="https://www.linkedin.com/in/anderson-matheuzzz")
 
-service_account_info = ""
-if "GCP_SERVICE_ACCOUNT" in os.environ:
-    service_account_info = json.loads(os.environ["GCP_SERVICE_ACCOUNT"])
-else:
-    service_account_info = st.secrets["gcp_service_account"]
-    
+
 @st.cache_data(ttl=600)
 def carregar_dados_sheet():
     # Carregar JSON a partir dos secrets
-    # service_account_info = st.secrets["gcp_service_account"]
+    if "GCP_SERVICE_ACCOUNT" in os.environ:
+        service_account_info = json.loads(os.environ["GCP_SERVICE_ACCOUNT"])
+    else:
+        service_account_info = st.secrets["gcp_service_account"]
     creds = ServiceAccountCredentials.from_json_keyfile_dict(service_account_info, scopes=[
         "https://spreadsheets.google.com/feeds",
         "https://www.googleapis.com/auth/drive"
@@ -40,7 +38,10 @@ def carregar_dados_sheet():
 
 def enviar_avaliacao(projeto, nota, comentario):
     # Carregar JSON a partir dos secrets
-    # service_account_info = st.secrets["gcp_service_account"]
+    if "GCP_SERVICE_ACCOUNT" in os.environ:
+        service_account_info = json.loads(os.environ["GCP_SERVICE_ACCOUNT"])
+    else:
+        service_account_info = st.secrets["gcp_service_account"]
     creds = ServiceAccountCredentials.from_json_keyfile_dict(service_account_info, scopes=[
         "https://spreadsheets.google.com/feeds",
         "https://www.googleapis.com/auth/drive"
