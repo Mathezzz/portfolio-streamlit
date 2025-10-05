@@ -101,14 +101,16 @@ with col1:
 with col2:
     nota = st.slider("Nota para o projeto (0 a 5):", 0, 5, 3)
     comentario = st.text_area("Deixe seu comentário:")
+    projeto = "visao-tomate"
     if st.button("Enviar avaliação"):
-        enviar_avaliacao("visao-tomate", nota, comentario)
+        enviar_avaliacao(projeto, nota, comentario)
         st.success("Obrigado! Sua avaliação foi registrada.")
         
     # Mostrar feedbacks anteriores
     grafico_avaliacoes("visao-tomate", df_avaliacao)
     if st.checkbox("Mostrar feedbacks anteriores"):
-        st.dataframe(df_avaliacao['Comentário'])
+        if not df_avaliacao[df_avaliacao["Projeto"] == projeto].empity:
+            st.dataframe(df_avaliacao[df_avaliacao["Projeto"] == projeto][['Comentário', 'nota']])
 
 st.markdown("---")
 
@@ -137,7 +139,8 @@ with col4:
     grafico_avaliacoes(projeto, df_avaliacao)
     
     if st.checkbox(f"Mostrar feedbacks anteriores de {projeto}", key=f"checkbox_{projeto}"):
-        st.dataframe(df_avaliacao[df_avaliacao["Projeto"] == projeto][['Comentário', 'nota']])
+        if not df_avaliacao[df_avaliacao["Projeto"] == projeto].empity:
+            st.dataframe(df_avaliacao[df_avaliacao["Projeto"] == projeto][['Comentário', 'nota']])
 
 st.markdown("---")
 
@@ -164,7 +167,8 @@ with col6:
     grafico_avaliacoes(projeto, df_avaliacao)
     
     if st.checkbox(f"Mostrar feedbacks anteriores de {projeto}", key=f"checkbox_{projeto}"):
-        st.dataframe(df_avaliacao[df_avaliacao["Projeto"] == projeto][['Comentário', 'nota']])
+        if not df_avaliacao[df_avaliacao["Projeto"] == projeto].empity:
+            st.dataframe(df_avaliacao[df_avaliacao["Projeto"] == projeto][['Comentário', 'nota']])
                 
 st.markdown("---")
 
@@ -193,4 +197,5 @@ with col8:
     grafico_avaliacoes(projeto, df_avaliacao)
     
     if st.checkbox(f"Mostrar feedbacks anteriores de {projeto}", key=f"checkbox_{projeto}"):
-        st.dataframe(df_avaliacao[df_avaliacao["Projeto"] == projeto][['Comentário', 'nota']])
+        if not df_avaliacao[df_avaliacao["Projeto"] == projeto].empity:
+            st.dataframe(df_avaliacao[df_avaliacao["Projeto"] == projeto][['Comentário', 'nota']])
