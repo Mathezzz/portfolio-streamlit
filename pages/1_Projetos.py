@@ -137,7 +137,7 @@ with col4:
     grafico_avaliacoes(projeto, df_avaliacao)
     
     if st.checkbox(f"Mostrar feedbacks anteriores de {projeto}", key=f"checkbox_{projeto}"):
-        st.dataframe(df_avaliacao[df_avaliacao["projeto"] == projeto][['Comentário', 'nota']])
+        st.dataframe(df_avaliacao[df_avaliacao["Projeto"] == projeto][['Comentário', 'nota']])
 
 st.markdown("---")
 
@@ -164,7 +164,7 @@ with col6:
     grafico_avaliacoes(projeto, df_avaliacao)
     
     if st.checkbox(f"Mostrar feedbacks anteriores de {projeto}", key=f"checkbox_{projeto}"):
-        st.dataframe(df_avaliacao[df_avaliacao["projeto"] == projeto][['Comentário', 'nota']])
+        st.dataframe(df_avaliacao[df_avaliacao["Projeto"] == projeto][['Comentário', 'nota']])
                 
 st.markdown("---")
 
@@ -193,4 +193,4 @@ with col8:
     grafico_avaliacoes(projeto, df_avaliacao)
     
     if st.checkbox(f"Mostrar feedbacks anteriores de {projeto}", key=f"checkbox_{projeto}"):
-        st.dataframe(df_avaliacao[df_avaliacao["projeto"] == projeto][['Comentário', 'nota']])
+        st.dataframe(df_avaliacao[df_avaliacao["Projeto"] == projeto][['Comentário', 'nota']])

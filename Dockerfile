@@ -9,6 +9,8 @@ WORKDIR /app
 # Copia os arquivos de dependência primeiro
 COPY requirements.txt .
 
+CMD ["pip", "install", "--upgrande", "pip"]
+
 # Instala as dependências Python
 RUN pip install -r requirements.txt
 
@@ -19,4 +21,5 @@ COPY . .
 # EXPOSE 5000
 
 # Comando padrão para iniciar a aplicação
+
 CMD ["streamlit", "run", "Inicio.py", "--server.port=5000", "--server.address=0.0.0.0"]
