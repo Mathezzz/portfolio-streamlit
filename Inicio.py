@@ -7,7 +7,15 @@ Created on Tue Jul  8 14:44:50 2025
 
 import streamlit as st
 from PIL import Image
-import base64
+import streamlit_shadcn_ui as ui
+
+from portfolio.ui_components import (
+    apply_theme,
+    close_soft_panel,
+    open_soft_panel,
+    render_page_hero,
+    render_section_title,
+)
 
 # ========== Configuração da Página ==========
 st.set_page_config(
@@ -16,15 +24,18 @@ st.set_page_config(
     layout="wide",
 )
 
+apply_theme()
+
 st.logo("assets/anderson_foto.jpg", size="large", link="https://www.linkedin.com/in/anderson-matheuzzz")
 
 # ========== Carregar Imagem ==========
 img = Image.open("assets/anderson_foto.jpg")
 
-# ========== Estilo CSS opcional ==========
-def local_css(file_name):
-    with open(file_name) as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+render_page_hero(
+    "Portfolio de Dados e IA",
+    "Anderson Matheus",
+    "Analista de Dados e Cientista de Dados com foco em resolver problemas reais com dados, modelagem e automacao.",
+)
 
 # ========== Header: Foto e Apresentação ==========
 col1, col2 = st.columns([1, 3])
@@ -33,8 +44,8 @@ with col1:
     st.image(img, width=200)
 
 with col2:
-    st.title("Anderson Matheus")
-    st.subheader("Analista de Dados | Especialista em Data Science | Foco em resolução de problemas com otimização e simulação")
+    render_section_title("Perfil profissional")
+    ui.badges(badge_list=[("Dados", "default"), ("IA", "secondary"), ("Automacao", "secondary")], key="home_badges")
     st.markdown(
         """
         Sou Analista de Dados trabalhando no setor de Franquias e Cientista de Dados, com uma paixão por Inteligência Artificial, Machine Learning e Automação de Processos. 
@@ -51,27 +62,35 @@ with col2:
 
 # ========== Links Importantes ==========
 st.markdown("---")
-st.markdown("📌 **Onde você pode me encontrar:**")
+render_section_title("Onde me encontrar")
 
 col1, col2, col3, col4 = st.columns(4)
 with col1:
+    open_soft_panel()
     st.write("Me conheça um pouco mais e meus conteúdos:")
     st.link_button("LinkedIn", "https://www.linkedin.com/in/anderson-matheuzzz")
+    close_soft_panel()
 with col2:
+    open_soft_panel()
     st.write("Github com alguns projetos:")
     st.link_button("GitHub", "https://github.com/Mathezzz")
+    close_soft_panel()
 with col3:
+    open_soft_panel()
     st.write("Uma pitada de dados:")
     st.image("assets/logo pitada de dados.png", width=200)
     st.link_button("Newsletter", "https://www.linkedin.com/build-relation/newsletter-follow?entityUrn=7202653532963934210")
+    close_soft_panel()
 with col4:
+    open_soft_panel()
     st.write("Contato: (84) 9 9840-9265")
     st.link_button("Fale comigo no Whatsapp", "https://wa.me/5584998409265?text=Ol%C3%A1%2C%20vi%20seu%20portf%C3%B3lio%20de%20dados%20e%20resolvi%20entrar%20em%20contato%20com%20voc%C3%AA!")
+    close_soft_panel()
 
 
 # ========== Cards com Resumo ==========
 st.markdown("---")
-st.markdown("🧩 **Resumo das minhas habilidades:**")
+render_section_title("Resumo das minhas habilidades")
 
 card1, card2, card3 = st.columns(3)
 with card1:
@@ -94,4 +113,4 @@ st.download_button(
 )
 
 st.markdown("---")
-st.caption("Planejando links dos projetos abaixo")
+st.caption("Navegue pelas paginas ao lado para ver projetos e trajetoria completa.")

@@ -6,26 +6,40 @@ Created on Wed Jul 23 11:17:38 2025
 """
 
 import streamlit as st
+import streamlit_shadcn_ui as ui
 
-st.set_page_config(page_title="Sobre Anderson", layout="wide")
+from portfolio.ui_components import (
+    apply_theme,
+    close_soft_panel,
+    open_soft_panel,
+    render_page_hero,
+    render_section_title,
+)
+
 st.set_page_config(
     page_title="Projetos - Anderson",
     page_icon="👤",
     layout="wide",
 )
+apply_theme()
 st.logo("assets/anderson_foto.jpg", size="large", link="https://www.linkedin.com/in/anderson-matheuzzz")
 
-st.title("👤 Sobre Mim")
-st.markdown("""
-            Vou falar um pouco mais da minha trajetória e de como ingressei no mundo da tecnologia
-            
-            ---
-            
-            """)
+render_page_hero(
+    "Sobre Mim",
+    "Trajetoria profissional e academica",
+    "Uma visao cronologica da minha evolucao em tecnologia, dados e lideranca de projetos.",
+)
+
+ui.badges(
+    badge_list=[("Engenharia", "secondary"), ("Dados", "default"), ("Negocios", "secondary")],
+    key="about_badges",
+)
 
 # ========== Criação dos espaços para storytelling ==========
 col1, col2 = st.columns(2)
 with col1:
+    open_soft_panel()
+    render_section_title("Inicio da jornada")
     st.markdown("""
                 Minha trajetória profissional começou ainda no ensino médio, quando cursei o técnico em Eletrotécnica. 
                 Foi ali que tive meu primeiro contato com automação e programação, por meio da disciplina de Automação Industrial, 
@@ -37,6 +51,7 @@ with col1:
                  onde pude ver como era a rotina de manutenções, os planejamentos necessários para a equipe, recursos e etc.
                 Conhecimento e experiência que mais para frente fez muita diferença no meu pensamento crítico na graduação de Engenharia de Produção.
                 """)
+    close_soft_panel()
                 
 with col2:
     st.image("assets/forno-itapetinga-painel.png")
@@ -48,6 +63,8 @@ with col3:
     st.image("assets/eu-faco-robos-obr.jpg")
                 
 with col4:  
+    open_soft_panel()
+    render_section_title("Formacao e lideranca")
     st.markdown("""
                 Buscando expandir meus conhecimentos, ingressei no Bacharelado em Ciência e Tecnologia, 
                 onde aprofundei meus estudos em matemática, física e outras ciências exatas, além de desenvolver 
@@ -65,11 +82,14 @@ with col4:
                 ao resultado: O valor para levar para o Rio de Janeiro 8 alunos do Ensino Municipal de Mossoró, 
                 com eles tendo a experiência pela primeira vez de andarem de avião! 🛫
                 """)
+    close_soft_panel()
                 
 st.markdown("---")
 
 col5, col6 = st.columns(2)
 with col5:
+    open_soft_panel()
+    render_section_title("Transicao para dados")
     st.markdown("""
                 Comecei minhas primeiras experiências como Freelancer, onde me aproveitando da base matemática e estatística 
                 da graduação pude desenvolver projetos de Machine Learning e análise de dados para clientes. Tive contato com 
@@ -94,6 +114,7 @@ with col5:
                 e concluí minha **pós-graduação em Data Science** 🎲🔮, o que me permitiu evoluir tecnicamente e ser promovido a 
                 Analista de Dados.
                 """)
+    close_soft_panel()
     
 with col6:
     st.image("assets/anderson-bee-reuniao-blur.png")

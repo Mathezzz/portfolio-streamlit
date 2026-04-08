@@ -1,7 +1,8 @@
 # Escolhendo uma imagem base enxuta e específica
 FROM python:3.12.11-trixie
 
-RUN apt-get update && apt-get install
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 # Define o diretório de trabalho dentro do container
 WORKDIR /app
@@ -9,7 +10,7 @@ WORKDIR /app
 # Copia os arquivos de dependência primeiro
 COPY requirements.txt .
 
-CMD ["pip", "install", "--upgrande", "pip"]
+RUN pip install --upgrade pip
 
 # Instala as dependências Python
 RUN pip install -r requirements.txt
@@ -18,7 +19,7 @@ RUN pip install -r requirements.txt
 COPY . .
 
 # Expõe a porta usada pela aplicação
-# EXPOSE 5000
+EXPOSE 5000
 
 # Comando padrão para iniciar a aplicação
 

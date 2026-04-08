@@ -1,3 +1,6 @@
 .streamlit/secrets.toml
 .env
 treino-melao-d43e6cf3fae1.json
+planejamento.md
+__pycache__/
+*.pyc
