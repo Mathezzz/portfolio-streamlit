@@ -74,9 +74,9 @@ def render_hero() -> None:
     st.markdown(
         """
         <section class='hero-shell'>
-            <div class='hero-kicker'>Portfolio de Projetos</div>
-            <h1 class='hero-title'>Projetos de dados, IA e automacao aplicados a desafios reais</h1>
-            <p class='hero-subtitle'>Aqui voce encontra dashboards, modelos e automacoes desenvolvidos com foco em resultado e qualidade de entrega.</p>
+            <div class='hero-kicker'>Portfólio de Projetos</div>
+            <h1 class='hero-title'>Projetos de dados, IA e automação aplicados a desafios reais</h1>
+            <p class='hero-subtitle'>Aqui você encontra dashboards, modelos e automações desenvolvidos com foco em resultado e qualidade de entrega.</p>
         </section>
         """,
         unsafe_allow_html=True,
@@ -119,10 +119,10 @@ def render_project_actions(links: dict, project_id: str) -> None:
         if links.get("demo"):
             st.link_button("Ver demo", links["demo"], use_container_width=True)
         elif links.get("publicacao"):
-            st.link_button("Ver publicacao", links["publicacao"], use_container_width=True)
+            st.link_button("Ver publicação", links["publicacao"], use_container_width=True)
 
     with col_b:
         if links.get("github"):
-            st.link_button("Repositorio", links["github"], use_container_width=True)
+            st.link_button("Repositório", links["github"], use_container_width=True)
         else:
-            st.button("Repositorio em breve", key=f"{project_id}_repo_placeholder", disabled=True, use_container_width=True)
+            st.button("Repositório em breve", key=f"{project_id}_repo_placeholder", disabled=True, use_container_width=True)

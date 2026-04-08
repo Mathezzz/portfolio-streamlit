@@ -35,8 +35,8 @@ def _render_feedback_section(project: dict, feedback_df: pd.DataFrame) -> None:
     st.markdown("<div class='social-proof-box'>", unsafe_allow_html=True)
     render_section_title("Feedback")
     col_m1, col_m2 = st.columns(2)
-    col_m1.metric("Media", f"{avg:.1f}" if votes else "-", f"{votes} votos")
-    col_m2.metric("Avaliacoes", str(votes))
+    col_m1.metric("Média", f"{avg:.1f}" if votes else "-", f"{votes} votos")
+    col_m2.metric("Avaliações", str(votes))
 
     if not project_feedback.empty:
         rating_count = (
@@ -44,10 +44,10 @@ def _render_feedback_section(project: dict, feedback_df: pd.DataFrame) -> None:
         )
         st.bar_chart(rating_count)
 
-        with st.expander("Comentarios recentes"):
+        with st.expander("Comentários recentes"):
             comments = project_feedback[project_feedback["Comentario"].astype(str).str.strip() != ""]
             if comments.empty:
-                st.caption("Ainda nao ha comentarios com texto para este projeto.")
+            st.caption("Ainda não há comentários com texto para este projeto.")
             else:
                 st.dataframe(
                     comments[["Timestamp", "Nota", "Comentario"]]
@@ -60,11 +60,11 @@ def _render_feedback_section(project: dict, feedback_df: pd.DataFrame) -> None:
     with st.form(key=f"form_feedback_{project['id']}"):
         note = st.slider("Nota", min_value=0, max_value=5, value=4, key=f"note_{project['id']}")
         comment = st.text_area(
-            "Comentario (opcional)",
-            placeholder="O que voce gostou ou o que pode melhorar?",
+            "Comentário (opcional)",
+            placeholder="O que você gostou ou o que pode melhorar?",
             key=f"comment_{project['id']}",
         )
-        submitted = st.form_submit_button("Enviar avaliacao")
+        submitted = st.form_submit_button("Enviar avaliação")
         if submitted:
             ok, message = save_feedback(project["id"], note, comment)
             if ok:
@@ -117,7 +117,7 @@ def render_project_card(project: dict, feedback_df: pd.DataFrame) -> None:
 
         with st.expander("Detalhes"):
             st.markdown(f"**Objetivo:** {project['objetivo']}")
-            st.markdown(f"**Solucao:** {project['solucao']}")
+            st.markdown(f"**Solução:** {project['solucao']}")
             st.markdown(f"**Resultado:** {project['resultado']}")
 
         render_project_actions(project["links"], project["id"])
@@ -131,7 +131,7 @@ feedback_df, _feedback_source = get_feedback()
 
 render_section_title("Filtrar projetos")
 selected_category = ui.tabs(
-    options=["Todos", "Dados", "IA", "Automacao", "BI"],
+    options=["Todos", "Dados", "IA", "Automação", "BI"],
     default_value="Todos",
     key="project_category_tabs",
 )
@@ -145,7 +145,7 @@ else:
     page_size = 2
     total_pages = max(1, (len(filtered_projects) + page_size - 1) // page_size)
     current_page = st.segmented_control(
-        "Pagina",
+        "Página",
         options=list(range(1, total_pages + 1)),
         default=1,
         key="projects_pagination",

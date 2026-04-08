@@ -17,7 +17,7 @@ from portfolio.ui_components import (
 )
 
 st.set_page_config(
-    page_title="Projetos - Anderson",
+    page_title="Sobre - Anderson",
     page_icon="👤",
     layout="wide",
 )
@@ -26,12 +26,12 @@ st.logo("assets/anderson_foto.jpg", size="large", link="https://www.linkedin.com
 
 render_page_hero(
     "Sobre Mim",
-    "Trajetoria profissional e academica",
-    "Uma visao cronologica da minha evolucao em tecnologia, dados e lideranca de projetos.",
+    "Trajetória profissional e acadêmica",
+    "Uma visão cronológica da minha evolução em tecnologia, dados e liderança de projetos.",
 )
 
 ui.badges(
-    badge_list=[("Engenharia", "secondary"), ("Dados", "default"), ("Negocios", "secondary")],
+    badge_list=[("Engenharia", "secondary"), ("Dados", "default"), ("Negócios", "secondary")],
     key="about_badges",
 )
 
@@ -39,7 +39,7 @@ ui.badges(
 col1, col2 = st.columns(2)
 with col1:
     open_soft_panel()
-    render_section_title("Inicio da jornada")
+    render_section_title("Início da jornada")
     st.markdown("""
                 Minha trajetória profissional começou ainda no ensino médio, quando cursei o técnico em Eletrotécnica. 
                 Foi ali que tive meu primeiro contato com automação e programação, por meio da disciplina de Automação Industrial, 
@@ -47,7 +47,7 @@ with col1:
                 Essa base prática despertou em mim um interesse profundo por sistemas automatizados e 
                 pelo potencial da tecnologia na resolução de problemas reais.
                 
-                Simultaneamente, durante o curso técnico, estagiei na industria Itapetinga Agro Industrial, produtora do cimento NASSAU,
+                Simultaneamente, durante o curso técnico, estagiei na indústria Itapetinga Agro Industrial, produtora do cimento NASSAU,
                  onde pude ver como era a rotina de manutenções, os planejamentos necessários para a equipe, recursos e etc.
                 Conhecimento e experiência que mais para frente fez muita diferença no meu pensamento crítico na graduação de Engenharia de Produção.
                 """)
@@ -64,7 +64,7 @@ with col3:
                 
 with col4:  
     open_soft_panel()
-    render_section_title("Formacao e lideranca")
+    render_section_title("Formação e liderança")
     st.markdown("""
                 Buscando expandir meus conhecimentos, ingressei no Bacharelado em Ciência e Tecnologia, 
                 onde aprofundei meus estudos em matemática, física e outras ciências exatas, além de desenvolver 
@@ -89,7 +89,7 @@ st.markdown("---")
 col5, col6 = st.columns(2)
 with col5:
     open_soft_panel()
-    render_section_title("Transicao para dados")
+    render_section_title("Transição para dados")
     st.markdown("""
                 Comecei minhas primeiras experiências como Freelancer, onde me aproveitando da base matemática e estatística 
                 da graduação pude desenvolver projetos de Machine Learning e análise de dados para clientes. Tive contato com 
