@@ -29,7 +29,7 @@ def apply_theme() -> None:
                 margin: 0;
             }
             .hero-subtitle {
-                color: #cbd5e1;
+                color: #ffffff;
                 margin-top: 0.5rem;
                 font-size: 1rem;
             }
@@ -125,4 +125,4 @@ def render_project_actions(links: dict, project_id: str) -> None:
         if links.get("github"):
             st.link_button("Repositorio", links["github"], use_container_width=True)
         else:
-            ui.button(text="Repositorio em breve", variant="outline", key=f"{project_id}_repo_placeholder")
+            st.button("Repositorio em breve", key=f"{project_id}_repo_placeholder", disabled=True, use_container_width=True)

@@ -1,6 +1,7 @@
 import pandas as pd
 import streamlit as st
 import streamlit_shadcn_ui as ui
+from PIL import Image, ImageOps
 
 from portfolio.feedback import load_feedback, save_feedback
 from portfolio.project_data import PROJECTS
@@ -96,9 +97,16 @@ def filter_projects(projects: list[dict], category: str, query: str) -> list[dic
     return filtered
 
 
+@st.cache_data(ttl=3600)
+def _load_project_cover(image_path: str) -> Image.Image:
+    image = Image.open(image_path).convert("RGB")
+    return ImageOps.fit(image, (1200, 700), method=Image.Resampling.LANCZOS)
+
+
 def render_project_card(project: dict, feedback_df: pd.DataFrame) -> None:
     with st.container(border=True):
-        st.image(project["imagem"], use_container_width=True)
+        cover = _load_project_cover(project["imagem"])
+        st.image(cover, use_container_width=True)
         st.subheader(project["nome"])
         st.caption(f"{project['categoria']} | {project['status']} | {project['ano']}")
         st.markdown(f"<p class='project-summary'>{project['resumo']}</p>", unsafe_allow_html=True)
@@ -136,10 +144,11 @@ if not filtered_projects:
 else:
     page_size = 2
     total_pages = max(1, (len(filtered_projects) + page_size - 1) // page_size)
-    current_page = ui.pagination(
+    current_page = st.segmented_control(
+        "Pagina",
+        options=list(range(1, total_pages + 1)),
+        default=1,
         key="projects_pagination",
-        totalPages=total_pages,
-        initialPage=1,
     )
     try:
         page = int(current_page)
