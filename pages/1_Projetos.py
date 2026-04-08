@@ -27,15 +27,15 @@ def _project_metrics(project_feedback: pd.DataFrame) -> tuple[float, int]:
     return float(project_feedback["Nota"].mean()), int(project_feedback.shape[0])
 
 
-def _render_feedback_section(project: dict, feedback_df: pd.DataFrame, feedback_source: str) -> None:
+def _render_feedback_section(project: dict, feedback_df: pd.DataFrame) -> None:
     project_feedback = feedback_df[feedback_df["Projeto"] == project["id"]]
     avg, votes = _project_metrics(project_feedback)
 
     st.markdown("<div class='social-proof-box'>", unsafe_allow_html=True)
-    render_section_title("Prova social")
+    render_section_title("Feedback")
     col_m1, col_m2 = st.columns(2)
     col_m1.metric("Media", f"{avg:.1f}" if votes else "-", f"{votes} votos")
-    col_m2.metric("Status", "Online" if feedback_source == "online" else "Offline")
+    col_m2.metric("Avaliacoes", str(votes))
 
     if not project_feedback.empty:
         rating_count = (
@@ -96,9 +96,8 @@ def filter_projects(projects: list[dict], category: str, query: str) -> list[dic
     return filtered
 
 
-def render_project_card(project: dict, feedback_df: pd.DataFrame, feedback_source: str) -> None:
+def render_project_card(project: dict, feedback_df: pd.DataFrame) -> None:
     with st.container(border=True):
-        st.markdown("<div class='project-card'>", unsafe_allow_html=True)
         st.image(project["imagem"], use_container_width=True)
         st.subheader(project["nome"])
         st.caption(f"{project['categoria']} | {project['status']} | {project['ano']}")
@@ -106,9 +105,7 @@ def render_project_card(project: dict, feedback_df: pd.DataFrame, feedback_sourc
 
         render_stack_badges(project["stack"], key_prefix=project["id"])
 
-        col_i1, col_i2 = st.columns(2)
-        col_i1.metric("Impacto", project["impacto"])
-        col_i2.metric("Ano", project["ano"])
+        st.metric("Ano", project["ano"])
 
         with st.expander("Detalhes"):
             st.markdown(f"**Objetivo:** {project['objetivo']}")
@@ -116,14 +113,13 @@ def render_project_card(project: dict, feedback_df: pd.DataFrame, feedback_sourc
             st.markdown(f"**Resultado:** {project['resultado']}")
 
         render_project_actions(project["links"], project["id"])
-        _render_feedback_section(project, feedback_df, feedback_source)
-        st.markdown("</div>", unsafe_allow_html=True)
+        _render_feedback_section(project, feedback_df)
 
 
 apply_theme()
 render_hero()
 
-feedback_df, feedback_source = get_feedback()
+feedback_df, _feedback_source = get_feedback()
 
 render_section_title("Filtrar projetos")
 selected_category = ui.tabs(
@@ -158,7 +154,7 @@ else:
     for index, project in enumerate(projects_slice):
         target_col = col_left if index % 2 == 0 else col_right
         with target_col:
-            render_project_card(project, feedback_df, feedback_source)
+            render_project_card(project, feedback_df)
 
 st.markdown("---")
 render_section_title("Vamos conversar?")

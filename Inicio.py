@@ -11,8 +11,6 @@ import streamlit_shadcn_ui as ui
 
 from portfolio.ui_components import (
     apply_theme,
-    close_soft_panel,
-    open_soft_panel,
     render_page_hero,
     render_section_title,
 )
@@ -32,9 +30,9 @@ st.logo("assets/anderson_foto.jpg", size="large", link="https://www.linkedin.com
 img = Image.open("assets/anderson_foto.jpg")
 
 render_page_hero(
-    "Portfolio de Dados e IA",
     "Anderson Matheus",
-    "Analista de Dados e Cientista de Dados com foco em resolver problemas reais com dados, modelagem e automacao.",
+    "Solucoes de dados para decisao, eficiencia e escala",
+    "Atuo como Analista e Cientista de Dados construindo dashboards, modelos preditivos e automacoes que transformam dados em resultado de negocio.",
 )
 
 # ========== Header: Foto e Apresentação ==========
@@ -66,26 +64,22 @@ render_section_title("Onde me encontrar")
 
 col1, col2, col3, col4 = st.columns(4)
 with col1:
-    open_soft_panel()
-    st.write("Me conheça um pouco mais e meus conteúdos:")
-    st.link_button("LinkedIn", "https://www.linkedin.com/in/anderson-matheuzzz")
-    close_soft_panel()
+    with st.container(border=True):
+        st.write("Me conheca um pouco mais e meus conteudos:")
+        st.link_button("LinkedIn", "https://www.linkedin.com/in/anderson-matheuzzz")
 with col2:
-    open_soft_panel()
-    st.write("Github com alguns projetos:")
-    st.link_button("GitHub", "https://github.com/Mathezzz")
-    close_soft_panel()
+    with st.container(border=True):
+        st.write("Github com alguns projetos:")
+        st.link_button("GitHub", "https://github.com/Mathezzz")
 with col3:
-    open_soft_panel()
-    st.write("Uma pitada de dados:")
-    st.image("assets/logo pitada de dados.png", width=200)
-    st.link_button("Newsletter", "https://www.linkedin.com/build-relation/newsletter-follow?entityUrn=7202653532963934210")
-    close_soft_panel()
+    with st.container(border=True):
+        st.write("Uma pitada de dados:")
+        st.image("assets/logo pitada de dados.png", width=200)
+        st.link_button("Newsletter", "https://www.linkedin.com/build-relation/newsletter-follow?entityUrn=7202653532963934210")
 with col4:
-    open_soft_panel()
-    st.write("Contato: (84) 9 9840-9265")
-    st.link_button("Fale comigo no Whatsapp", "https://wa.me/5584998409265?text=Ol%C3%A1%2C%20vi%20seu%20portf%C3%B3lio%20de%20dados%20e%20resolvi%20entrar%20em%20contato%20com%20voc%C3%AA!")
-    close_soft_panel()
+    with st.container(border=True):
+        st.write("Contato: (84) 9 9840-9265")
+        st.link_button("Fale comigo no Whatsapp", "https://wa.me/5584998409265?text=Ol%C3%A1%2C%20vi%20seu%20portf%C3%B3lio%20de%20dados%20e%20resolvi%20entrar%20em%20contato%20com%20voc%C3%AA!")
 
 
 # ========== Cards com Resumo ==========

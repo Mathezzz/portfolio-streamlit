@@ -75,8 +75,8 @@ def render_hero() -> None:
         """
         <section class='hero-shell'>
             <div class='hero-kicker'>Portfolio de Projetos</div>
-            <h1 class='hero-title'>Projetos de dados, IA e automacao com foco em impacto real</h1>
-            <p class='hero-subtitle'>Navegue por categoria, entenda contexto e resultados, e deixe sua avaliacao para fortalecer a prova social.</p>
+            <h1 class='hero-title'>Projetos de dados, IA e automacao aplicados a desafios reais</h1>
+            <p class='hero-subtitle'>Aqui voce encontra dashboards, modelos e automacoes desenvolvidos com foco em resultado e qualidade de entrega.</p>
         </section>
         """,
         unsafe_allow_html=True,
