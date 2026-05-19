@@ -5,6 +5,7 @@ import streamlit_shadcn_ui as ui
 def apply_theme() -> None:
     st.markdown(
         """
+        <meta charset="utf-8">
         <style>
             .hero-shell {
                 background: linear-gradient(140deg, #0f172a 0%, #1e293b 45%, #334155 100%);
@@ -64,6 +65,73 @@ def apply_theme() -> None:
             .text-muted {
                 color: #94a3b8;
             }
+            .project-meta-row {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                margin: 0.5rem 0 0.3rem;
+                flex-wrap: wrap;
+            }
+            .project-meta-chip {
+                font-size: 0.75rem;
+                font-weight: 600;
+                padding: 0.2rem 0.55rem;
+                border-radius: 999px;
+                letter-spacing: 0.03em;
+            }
+            .chip-ia       { background: rgba(139,92,246,0.18); color: #c4b5fd; border: 1px solid rgba(139,92,246,0.35); }
+            .chip-bi       { background: rgba(16,185,129,0.15); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.30); }
+            .chip-dados    { background: rgba(59,130,246,0.15); color: #93c5fd; border: 1px solid rgba(59,130,246,0.30); }
+            .chip-automacao{ background: rgba(245,158,11,0.15); color: #fcd34d; border: 1px solid rgba(245,158,11,0.30); }
+            .chip-status   { background: rgba(148,163,184,0.10); color: #94a3b8; border: 1px solid rgba(148,163,184,0.25); }
+            .chip-year     { background: transparent; color: #64748b; border: none; font-weight: 500; }
+            .project-name {
+                font-size: 1.15rem;
+                font-weight: 700;
+                line-height: 1.3;
+                margin: 0.2rem 0 0.1rem;
+            }
+            .project-summary {
+                color: #94a3b8;
+                font-size: 0.92rem;
+                margin: 0.3rem 0 0.6rem;
+                line-height: 1.5;
+            }
+            .detail-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 0.6rem;
+                margin-top: 0.4rem;
+            }
+            .detail-cell {
+                background: rgba(255,255,255,0.03);
+                border: 1px solid rgba(148,163,184,0.15);
+                border-radius: 10px;
+                padding: 0.6rem 0.7rem;
+            }
+            .detail-label {
+                font-size: 0.72rem;
+                font-weight: 700;
+                letter-spacing: 0.07em;
+                text-transform: uppercase;
+                color: #64748b;
+                margin-bottom: 0.25rem;
+            }
+            .detail-text {
+                font-size: 0.88rem;
+                color: #cbd5e1;
+                line-height: 1.45;
+            }
+            .impact-banner {
+                background: linear-gradient(90deg, rgba(59,130,246,0.10), rgba(139,92,246,0.08));
+                border: 1px solid rgba(99,102,241,0.25);
+                border-radius: 10px;
+                padding: 0.5rem 0.75rem;
+                margin-top: 0.5rem;
+                font-size: 0.85rem;
+                color: #a5b4fc;
+            }
+            .impact-banner strong { color: #c7d2fe; }
         </style>
         """,
         unsafe_allow_html=True,

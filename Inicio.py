@@ -31,7 +31,7 @@ img = Image.open("assets/anderson_foto.jpg")
 
 render_page_hero(
     "Anderson Matheus",
-    "Solucoes de dados para decisao, eficiencia e escala",
+    "Soluções de dados para decisão, eficiência e escala",
     "Atuo como Analista e Cientista de Dados construindo dashboards, modelos preditivos e automacoes que transformam dados em resultado de negocio.",
 )
 
@@ -64,20 +64,20 @@ render_section_title("Onde me encontrar")
 
 col1, col2, col3, col4 = st.columns(4)
 with col1:
-    with st.container(border=True):
-        st.write("Me conheca um pouco mais e meus conteudos:")
+    with st.container(border=True, height=300):
+        st.write("Me conheça um pouco mais e meus conteúdos:")
         st.link_button("LinkedIn", "https://www.linkedin.com/in/anderson-matheuzzz")
 with col2:
-    with st.container(border=True):
+    with st.container(border=True, height=300):
         st.write("Github com alguns projetos:")
         st.link_button("GitHub", "https://github.com/Mathezzz")
 with col3:
-    with st.container(border=True):
+    with st.container(border=True, height=300):
         st.write("Uma pitada de dados:")
         st.image("assets/logo pitada de dados.png", width=200)
         st.link_button("Newsletter", "https://www.linkedin.com/build-relation/newsletter-follow?entityUrn=7202653532963934210")
 with col4:
-    with st.container(border=True):
+    with st.container(border=True, height=300):
         st.write("Contato: (84) 9 9840-9265")
         st.link_button("Fale comigo no Whatsapp", "https://wa.me/5584998409265?text=Ol%C3%A1%2C%20vi%20seu%20portf%C3%B3lio%20de%20dados%20e%20resolvi%20entrar%20em%20contato%20com%20voc%C3%AA!")
 

@@ -1,18 +1,16 @@
-import pandas as pd
+# -*- coding: utf-8 -*-
 import streamlit as st
 import streamlit_shadcn_ui as ui
 from PIL import Image, ImageOps
 
-from portfolio.feedback import load_feedback, save_feedback
 from portfolio.project_data import PROJECTS
 from portfolio.ui_components import (
     apply_theme,
-    render_hero,
+    render_page_hero,
     render_project_actions,
     render_section_title,
     render_stack_badges,
 )
-
 
 st.set_page_config(page_title="Projetos - Anderson", page_icon="🎲", layout="wide")
 st.logo(
@@ -21,157 +19,192 @@ st.logo(
     link="https://www.linkedin.com/in/anderson-matheuzzz",
 )
 
+apply_theme()
 
-def _project_metrics(project_feedback: pd.DataFrame) -> tuple[float, int]:
-    if project_feedback.empty:
-        return 0.0, 0
-    return float(project_feedback["Nota"].mean()), int(project_feedback.shape[0])
+# ── Mapa de ícones e chips por categoria ──────────────────────────────────────
+CATEGORY_ICON = {
+    "IA": "🤖",
+    "BI": "📊",
+    "Dados": "🔢",
+    "Automação": "⚙️",
+}
 
-
-def _render_feedback_section(project: dict, feedback_df: pd.DataFrame) -> None:
-    project_feedback = feedback_df[feedback_df["Projeto"] == project["id"]]
-    avg, votes = _project_metrics(project_feedback)
-
-    st.markdown("<div class='social-proof-box'>", unsafe_allow_html=True)
-    render_section_title("Feedback")
-    col_m1, col_m2 = st.columns(2)
-    col_m1.metric("Média", f"{avg:.1f}" if votes else "-", f"{votes} votos")
-    col_m2.metric("Avaliações", str(votes))
-
-    if not project_feedback.empty:
-        rating_count = (
-            project_feedback["Nota"].value_counts().reindex(range(0, 6), fill_value=0)
-        )
-        st.bar_chart(rating_count)
-
-        with st.expander("Comentários recentes"):
-            comments = project_feedback[project_feedback["Comentario"].astype(str).str.strip() != ""]
-            if comments.empty:
-            st.caption("Ainda não há comentários com texto para este projeto.")
-            else:
-                st.dataframe(
-                    comments[["Timestamp", "Nota", "Comentario"]]
-                    .sort_values(by="Timestamp", ascending=False)
-                    .head(8),
-                    use_container_width=True,
-                    hide_index=True,
-                )
-
-    with st.form(key=f"form_feedback_{project['id']}"):
-        note = st.slider("Nota", min_value=0, max_value=5, value=4, key=f"note_{project['id']}")
-        comment = st.text_area(
-            "Comentário (opcional)",
-            placeholder="O que você gostou ou o que pode melhorar?",
-            key=f"comment_{project['id']}",
-        )
-        submitted = st.form_submit_button("Enviar avaliação")
-        if submitted:
-            ok, message = save_feedback(project["id"], note, comment)
-            if ok:
-                st.success(message)
-                st.cache_data.clear()
-                st.rerun()
-            else:
-                st.error(message)
-
-    st.markdown("</div>", unsafe_allow_html=True)
+CATEGORY_CHIP = {
+    "IA": "chip-ia",
+    "BI": "chip-bi",
+    "Dados": "chip-dados",
+    "Automação": "chip-automacao",
+}
 
 
-@st.cache_data(ttl=300)
-def get_feedback() -> tuple[pd.DataFrame, str]:
-    return load_feedback()
+# ── Helpers ───────────────────────────────────────────────────────────────────
+def _project_categories(project: dict) -> list[str]:
+    """Retorna a lista de categorias do projeto (suporta campo legado)."""
+    return project.get("categorias") or [project["categoria"]]
 
 
 def filter_projects(projects: list[dict], category: str, query: str) -> list[dict]:
-    filtered = projects
-    if category != "Todos":
-        filtered = [project for project in filtered if project["categoria"] == category]
-
+    result = projects
+    if category and category != "Todos":
+        result = [p for p in result if category in _project_categories(p)]
     q = query.strip().lower()
     if q:
-        filtered = [
-            project
-            for project in filtered
-            if q in project["nome"].lower() or q in project["resumo"].lower()
+        result = [
+            p for p in result
+            if q in p["nome"].lower()
+            or q in p["resumo"].lower()
+            or any(q in s.lower() for s in p["stack"])
         ]
-    return filtered
+    return result
 
 
+# ── Cache de imagem com fallback ──────────────────────────────────────────────
 @st.cache_data(ttl=3600)
-def _load_project_cover(image_path: str) -> Image.Image:
-    image = Image.open(image_path).convert("RGB")
-    return ImageOps.fit(image, (1200, 700), method=Image.Resampling.LANCZOS)
+def _load_cover(path: str) -> Image.Image:
+    try:
+        img = Image.open(path).convert("RGB")
+    except FileNotFoundError:
+        img = Image.new("RGB", (1200, 700), color=(30, 41, 59))
+    return ImageOps.fit(img, (1200, 700), method=Image.Resampling.LANCZOS)
 
 
-def render_project_card(project: dict, feedback_df: pd.DataFrame) -> None:
-    with st.container(border=True):
-        cover = _load_project_cover(project["imagem"])
-        st.image(cover, use_container_width=True)
-        st.subheader(project["nome"])
-        st.caption(f"{project['categoria']} | {project['status']} | {project['ano']}")
-        st.markdown(f"<p class='project-summary'>{project['resumo']}</p>", unsafe_allow_html=True)
+# ── Hero ──────────────────────────────────────────────────────────────────────
+render_page_hero(
+    "Portfólio de Projetos",
+    "Projetos de dados, IA e automação aplicados a desafios reais",
+    "Dashboards, modelos preditivos e automações com foco em resultado e qualidade de entrega.",
+)
 
-        render_stack_badges(project["stack"], key_prefix=project["id"])
+# ── Stats rápidas ─────────────────────────────────────────────────────────────
+all_categories = sorted({cat for p in PROJECTS for cat in _project_categories(p)})
+all_stacks = {tech for p in PROJECTS for tech in p["stack"]}
 
-        st.metric("Ano", project["ano"])
+s1, s2, s3 = st.columns(3)
+s1.metric("Projetos", len(PROJECTS))
+s2.metric("Categorias", len(all_categories))
+s3.metric("Tecnologias", f"{len(all_stacks)}+")
 
-        with st.expander("Detalhes"):
-            st.markdown(f"**Objetivo:** {project['objetivo']}")
-            st.markdown(f"**Solução:** {project['solucao']}")
-            st.markdown(f"**Resultado:** {project['resultado']}")
+st.markdown("---")
 
-        render_project_actions(project["links"], project["id"])
-        _render_feedback_section(project, feedback_df)
+# ── Filtro e busca ────────────────────────────────────────────────────────────
+render_section_title("Explorar projetos")
 
-
-apply_theme()
-render_hero()
-
-feedback_df, _feedback_source = get_feedback()
-
-render_section_title("Filtrar projetos")
+tab_options = ["Todos"] + all_categories
 selected_category = ui.tabs(
-    options=["Todos", "Dados", "IA", "Automação", "BI"],
+    options=tab_options,
     default_value="Todos",
     key="project_category_tabs",
 )
-search_query = st.text_input("Buscar por nome ou resumo")
 
-filtered_projects = filter_projects(PROJECTS, selected_category or "Todos", search_query)
+search_query = st.text_input(
+    "Buscar projeto",
+    placeholder="Nome, tecnologia ou área...",
+    label_visibility="collapsed",
+)
 
-if not filtered_projects:
-    st.warning("Nenhum projeto encontrado com os filtros atuais.")
-else:
-    page_size = 2
-    total_pages = max(1, (len(filtered_projects) + page_size - 1) // page_size)
-    current_page = st.segmented_control(
-        "Página",
-        options=list(range(1, total_pages + 1)),
-        default=1,
-        key="projects_pagination",
+filtered = filter_projects(PROJECTS, selected_category or "Todos", search_query)
+
+
+# ── Card de projeto ───────────────────────────────────────────────────────────
+def render_project_card(project: dict) -> None:
+    cats = _project_categories(project)
+    primary_cat = project["categoria"]
+
+    chips_html = "".join(
+        f'<span class="project-meta-chip {CATEGORY_CHIP.get(c, "chip-status")}">'
+        f'{CATEGORY_ICON.get(c, "📁")}&nbsp;{c}</span>'
+        for c in cats
     )
-    try:
-        page = int(current_page)
-    except (TypeError, ValueError):
-        page = 1
 
-    start = (max(1, page) - 1) * page_size
-    end = start + page_size
-    projects_slice = filtered_projects[start:end]
+    with st.container(border=True):
+        st.image(_load_cover(project["imagem"]), use_container_width=True)
 
-    col_left, col_right = st.columns(2)
-    for index, project in enumerate(projects_slice):
-        target_col = col_left if index % 2 == 0 else col_right
-        with target_col:
-            render_project_card(project, feedback_df)
+        st.markdown(
+            f"""
+            <div class="project-meta-row">
+                {chips_html}
+                <span class="project-meta-chip chip-status">{project['status']}</span>
+                <span class="project-meta-chip chip-year">{project['ano']}</span>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
+        st.markdown(
+            f"<p class='project-name'>{project['nome']}</p>",
+            unsafe_allow_html=True,
+        )
+
+        st.markdown(
+            f"<p class='project-summary'>{project['resumo']}</p>",
+            unsafe_allow_html=True,
+        )
+
+        render_stack_badges(project["stack"], key_prefix=project["id"])
+
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        with st.expander("Ver detalhes do projeto"):
+            st.markdown(
+                f"""
+                <div class="detail-grid">
+                    <div class="detail-cell">
+                        <div class="detail-label">Objetivo</div>
+                        <div class="detail-text">{project['objetivo']}</div>
+                    </div>
+                    <div class="detail-cell">
+                        <div class="detail-label">Solução</div>
+                        <div class="detail-text">{project['solucao']}</div>
+                    </div>
+                    <div class="detail-cell">
+                        <div class="detail-label">Resultado</div>
+                        <div class="detail-text">{project['resultado']}</div>
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+            if project.get("impacto"):
+                st.markdown(
+                    f"""
+                    <div class="impact-banner">
+                        <strong>Impacto:</strong> {project['impacto']}
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+
+        render_project_actions(project["links"], project["id"])
+
+
+# ── Grid de projetos ──────────────────────────────────────────────────────────
+st.markdown("<br>", unsafe_allow_html=True)
+
+if not filtered:
+    st.info("Nenhum projeto encontrado com os filtros atuais.")
+else:
+    col_left, col_right = st.columns(2, gap="medium")
+    for i, project in enumerate(filtered):
+        with col_left if i % 2 == 0 else col_right:
+            render_project_card(project)
+
+# ── CTA ───────────────────────────────────────────────────────────────────────
 st.markdown("---")
 render_section_title("Vamos conversar?")
+
 cta_1, cta_2, cta_3 = st.columns(3)
 with cta_1:
-    st.link_button("LinkedIn", "https://www.linkedin.com/in/anderson-matheuzzz", use_container_width=True)
+    st.link_button(
+        "LinkedIn",
+        "https://www.linkedin.com/in/anderson-matheuzzz",
+        use_container_width=True,
+    )
 with cta_2:
-    st.link_button("GitHub", "https://github.com/Mathezzz", use_container_width=True)
+    st.link_button(
+        "GitHub",
+        "https://github.com/Mathezzz",
+        use_container_width=True,
+    )
 with cta_3:
     st.link_button(
         "WhatsApp",

@@ -1,8 +1,16 @@
+# -*- coding: utf-8 -*-
+"""
+Dados dos projetos do portfólio.
+
+Para adicionar um novo projeto, consulte portfolio/COMO_ADICIONAR_PROJETO.md.
+"""
+
 PROJECTS = [
     {
         "id": "visao-tomate",
         "nome": "Detecção de tomates com Visão Computacional",
         "categoria": "IA",
+        "categorias": ["IA"],
         "ano": "2025",
         "status": "Protótipo",
         "resumo": "Modelo de visão computacional para apoiar inspeção de qualidade e triagem de tomates.",
@@ -20,6 +28,7 @@ PROJECTS = [
         "id": "dashboard-clima",
         "nome": "Dashboard de Análise Climática",
         "categoria": "BI",
+        "categorias": ["BI"],
         "ano": "2025",
         "status": "Publicado",
         "resumo": "Dashboard de monitoramento climático com coleta automatizada e visualização executiva.",
@@ -37,6 +46,7 @@ PROJECTS = [
         "id": "petcare",
         "nome": "PetCare IoT",
         "categoria": "Automação",
+        "categorias": ["Automação"],
         "ano": "2023",
         "status": "Protótipo",
         "resumo": "Sistema de comedouros inteligentes para apoio a animais em situação de rua.",
@@ -54,6 +64,7 @@ PROJECTS = [
         "id": "ocr-texto",
         "nome": "OCR de Imagens para Texto",
         "categoria": "Dados",
+        "categorias": ["Dados"],
         "ano": "2025",
         "status": "Em evolução",
         "resumo": "Ferramenta de OCR para converter imagens, scans e prints em texto editável.",
@@ -66,5 +77,21 @@ PROJECTS = [
         "links": {
             "publicacao": "https://www.linkedin.com/posts/anderson-matheuzzz_analisededados-cienciadedados-ocr-activity-7322424522605772800-WA-j"
         },
+    },
+    {
+        "id": "n8n-clinica",
+        "nome": "Agente de Atendimento para Clínica via WhatsApp",
+        "categoria": "Automação",
+        "categorias": ["Automação", "IA"],
+        "ano": "2025",
+        "status": "Em produção",
+        "resumo": "Sistema inteligente de atendimento via WhatsApp que agenda consultas e responde dúvidas automaticamente com base em um FAQ personalizado.",
+        "objetivo": "Eliminar atendimento manual repetitivo na clínica, garantindo disponibilidade 24/7 para agendamentos e dúvidas frequentes.",
+        "solucao": "Agente de IA orquestrado no N8N com MCP para gerenciar calendário e FAQ. Comunicação via WhatsApp integrada pela Evolution API.",
+        "resultado": "Atendimento autônomo 24/7 com agendamentos diretos no calendário e respostas precisas sem intervenção humana.",
+        "impacto": "Redução do volume de mensagens manuais e disponibilidade total fora do horário comercial.",
+        "stack": ["N8N", "Evolution API", "WhatsApp", "MCP", "IA Generativa"],
+        "imagem": "assets/eu-faco-robos-obr.jpg",
+        "links": {},
     },
 ]
